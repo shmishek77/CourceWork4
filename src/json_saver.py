@@ -2,6 +2,9 @@ import json
 from src.vacancy import Vacancy
 
 class JSONSaver:
+    """
+    Класс для сохранения и получения вакансий в JSON-файл
+    """
     def __init__(self, filename):
         self.filename = filename
 

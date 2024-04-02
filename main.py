@@ -3,9 +3,12 @@ from src.json_saver import JSONSaver
 
 hh = HeadHunter()
 json_saver = JSONSaver("data/vacancies.json")
+
+# начало работы программы, получение ключегого слова для поиска по вакансиям
 vacancies = hh.filter_vacancies(input("Введите ключевое слово для поиска по вакансиям или оставьте поле путым и нажмите Enter: "))
 json_saver.write_vacancies(vacancies)
-#print(json_saver.read_vacancies())
+
+# выбор сортировки вакансий
 sort = input(
 """
 Выберите сортировку:
