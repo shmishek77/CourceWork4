@@ -1,7 +1,19 @@
 import json
 from src.vacancy import Vacancy
+from abc import ABC, abstractmethod
 
-class JSONSaver:
+
+class AbstractVacancySaver(ABC):
+    @abstractmethod
+    def write_vacancies(self, vacancies):
+        pass
+
+    @abstractmethod
+    def read_vacancies(self):
+        pass
+
+
+class JSONSaver(AbstractVacancySaver):
     """
     Класс для сохранения и получения вакансий в JSON-файл
     """

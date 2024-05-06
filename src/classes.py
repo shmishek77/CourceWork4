@@ -23,7 +23,7 @@ class HeadHunter(AbstractAPI):
         """
         Получает вакансии по ключевому слову из API сервиса поиска вакансий
         """
-        params = {"text": text, 'per_page': 20, "only_with_salary": "true"}
+        params = {"text": text, 'per_page': 50, "only_with_salary": "true"}
         vacancies = requests.get("https://api.hh.ru/vacancies", params=params).json()
         #print(vacancies)
         return vacancies["items"]
@@ -37,18 +37,24 @@ class HeadHunter(AbstractAPI):
         for vacancy in vacancies:
             if vacancy["salary"]["currency"] != "RUR":
                 continue
-            if vacancy['snippet']['requirement'] == None:
+            if vacancy['snippet']['requirement'] is None:
                 vacancy['snippet']['requirement'] = "-"
             if "<highlighttext>" in vacancy['snippet']['requirement']:
                 vacancy['snippet']['requirement'] = "".join(vacancy['snippet']['requirement'].split("<highlighttext>"))
             if "</highlighttext>" in vacancy['snippet']['requirement']:
                 vacancy['snippet']['requirement'] = "".join(vacancy['snippet']['requirement'].split("</highlighttext>"))
-            if vacancy["salary"]["from"] == None:
+            if vacancy["salary"]["from"] is None:
                 vacancy["salary"]["from"] = 0
-            if vacancy["salary"]["to"] == None:
+            if vacancy["salary"]["to"] is None:
                 vacancy["salary"]["to"] = 0
-            if vacancy['snippet']['responsibility'] == None:
+            if vacancy['snippet']['responsibility'] is None:
                 vacancy['snippet']['responsibility'] = "-"
+            if "<highlighttext>" in vacancy['snippet']['responsibility']:
+                vacancy['snippet']['responsibility'] = "".join(vacancy['snippet']['responsibility'].split(
+                    "<highlighttext>"))
+            if "</highlighttext>" in vacancy['snippet']['responsibility']:
+                vacancy['snippet']['responsibility'] = "".join(vacancy['snippet']['responsibility'].split(
+                    "</highlighttext>"))
             vacancies_filter.append({
                 "name": vacancy["name"],
                 "url": vacancy["alternate_url"],
